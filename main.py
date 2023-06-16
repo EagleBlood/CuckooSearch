@@ -39,9 +39,9 @@ def levy_flight_plot(step_length, lambda_value, num_steps):
     plt.show()
 
 
-def generate_initial_solution():
+def generate_initial_solution(lower_bound, upper_bound):
     # Tutaj zaimplementuj losową generację początkowego rozwiązania
-    return [random.uniform(0, 1) for _ in range(10)]
+    return [random.uniform(lower_bound, upper_bound) for _ in range(10)]
 
 
 def evaluate_solution(solution):
@@ -50,8 +50,8 @@ def evaluate_solution(solution):
     return fitness
 
 
-def cuckoo_search_algorithm(population_size, max_iterations):
-    nests = [generate_initial_solution() for _ in range(population_size)]
+def cuckoo_search_algorithm(population_size, max_iterations, lower_bound, upper_bound, probability):
+    nests = [generate_initial_solution(lower_bound, upper_bound) for _ in range(population_size)]
     best_solution = nests[0]
 
     for iteration in range(max_iterations):
@@ -63,6 +63,9 @@ def cuckoo_search_algorithm(population_size, max_iterations):
             new_solution = [current_solution[j] + step_length * random.uniform(-1, 1) for j in
                             range(len(current_solution))]
 
+            # Sprawdzanie, czy nowe rozwiązanie mieści się w granicach Lb i Ub
+            new_solution = [min(max(new_solution[j], lower_bound), upper_bound) for j in range(len(new_solution))]
+
             # Ocena nowego rozwiązania
             current_fitness = evaluate_solution(current_solution)
             new_fitness = evaluate_solution(new_solution)
@@ -72,9 +75,8 @@ def cuckoo_search_algorithm(population_size, max_iterations):
                 nests[i] = new_solution
 
             # Porzucanie części gorszych rozwiązań i ich zastąpienie nowymi
-            discard_probability = 0.25  # Przykładowe prawdopodobieństwo porzucenia
-            if random.random() < discard_probability:
-                nests[i] = generate_initial_solution()
+            if random.random() < probability:
+                nests[i] = generate_initial_solution(lower_bound, upper_bound)
 
         # Sortowanie gniazd względem wartości funkcji kryterialnej
         nests.sort(key=lambda x: evaluate_solution(x))
@@ -89,7 +91,12 @@ def cuckoo_search_algorithm(population_size, max_iterations):
 # Wywołanie algorytmu kukułczego
 population_size = 10
 max_iterations = 100
-best_solution = cuckoo_search_algorithm(population_size, max_iterations)
+probability = 0.25
+lower_bound = -10  # Dolna granica (Lb)
+upper_bound = 10 # Górna granica (Ub)
+best_solution = cuckoo_search_algorithm(population_size, max_iterations, lower_bound, upper_bound, probability)
+top_best_solution = best_solution[:5]
+
 
 def plot(solution):
     x = [0]
@@ -116,12 +123,10 @@ def plot(solution):
     # Wyświetlenie obu wykresów
     plt.show()
 
-print("Najlepsze znalezione rozwiązanie:", best_solution)
-
 
 # Wywołanie funkcji do rysowania lotu Lévy'ego
 step_length = 1
 lambda_value = 1.5
 num_steps = 1000
 
-plot(best_solution)
+plot(top_best_solution)
