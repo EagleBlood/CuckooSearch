@@ -5,7 +5,7 @@ from PIL import ImageTk, Image
 root = tk.Tk()
 
 # Ustawienia głównego okna
-root.geometry("800x600")
+root.geometry("1000x600")
 root.title("Algorytm kukułczy")
 
 # Górna sekcja
@@ -30,12 +30,12 @@ logo_label.pack(side=tk.LEFT)
 title_label = tk.Label(upper_frame, text="Algorytm kukułczy", font=("Helvetica", 19, "bold"))
 title_label.pack(side=tk.LEFT)
 
-# Kontener przechowujący Ustawienia i Wyniki
-settings_results_frame = tk.Frame(root)
-settings_results_frame.pack(pady=10)
+# Kontener przechowujący Ustawienia, Wyniki i Wykresy
+main_frame = tk.Frame(root)
+main_frame.pack(pady=10)
 
 # Kontener z ustawieniami
-settings_frame = ttk.Frame(settings_results_frame, width=400, height=300, borderwidth=1, relief=tk.SOLID)
+settings_frame = ttk.Frame(main_frame, width=400, height=300, borderwidth=1, relief=tk.SOLID)
 settings_frame.pack(side=tk.LEFT, padx=(0, 10), fill=tk.Y, pady=(20, 20))
 
 # Wewnętrzny kontener z większym padding w kontenerze ustawień
@@ -105,8 +105,8 @@ calculate_button = ttk.Button(buttons_frame, text="Oblicz", width=19)
 calculate_button.pack(side=tk.LEFT, padx=10)
 
 # Kontener z wynikami
-results_frame = ttk.Frame(settings_results_frame, width=400, height=200, borderwidth=1, relief=tk.SOLID)
-results_frame.pack(side=tk.LEFT, padx=(10, 0), fill=tk.Y, pady=(20, 20))
+results_frame = ttk.Frame(main_frame, width=400, height=200, borderwidth=1, relief=tk.SOLID)
+results_frame.pack(side=tk.LEFT, padx=(0, 0), fill=tk.Y, pady=(20, 20))
 
 # Wewnętrzny kontener z większym padding w kontenerze wyników
 inner_results_frame = ttk.Frame(results_frame, padding=20)
@@ -140,14 +140,41 @@ best_result_label.pack(pady=10)
 best_result_value_label = ttk.Label(inner_results_frame, text="Wynik 1", font=("Helvetica", 9, "bold"))
 best_result_value_label.pack()
 
-# Miejsca na wykresy
-charts_frame = ttk.Frame(root)
-charts_frame.pack(pady=20)
+# Kontener z wykresami
+charts_frame = ttk.Frame(main_frame, width=400, height=300, borderwidth=1, relief=tk.SOLID)
+charts_frame.pack(side=tk.LEFT, padx=(10, 0), fill=tk.BOTH, pady=(20, 20))
 
-chart1_frame = ttk.Frame(charts_frame, width=400)
-chart1_frame.pack(side=tk.LEFT, padx=(0, 10))
+# Wewnętrzny kontener z większym padding w kontenerze wykresów
+inner_charts_frame = ttk.Frame(charts_frame, padding=20)
+inner_charts_frame.pack(fill=tk.BOTH, expand=True)
 
-chart2_frame = ttk.Frame(charts_frame, width=400)
-chart2_frame.pack(side=tk.LEFT)
+charts_label = ttk.Label(inner_charts_frame, text="Wykresy", font=("Helvetica", 14))
+charts_label.pack(pady=(0, 10))
+
+charts_separator = ttk.Separator(inner_charts_frame, orient=tk.HORIZONTAL)
+charts_separator.pack(fill=tk.X, padx=10, pady=10)
+
+# Kontener dla pierwszego wykresu
+chart1_container = ttk.Frame(inner_charts_frame, borderwidth=1, relief=tk.SOLID)
+chart1_container.pack(fill=tk.BOTH, expand=True)
+
+# Kontener dla drugiego wykresu
+chart2_container = ttk.Frame(inner_charts_frame, borderwidth=1, relief=tk.SOLID)
+chart2_container.pack(fill=tk.BOTH, expand=True)
+
+# Kontener na pierwszy wykres
+chart1_frame = ttk.Frame(chart1_container)
+chart1_frame.pack(side=tk.TOP, pady=(20, 10))
+
+chart1_label = ttk.Label(chart1_frame, text="Wykres 1", font=("Helvetica", 10))
+chart1_label.pack()
+
+# Kontener na drugi wykres
+chart2_frame = ttk.Frame(chart2_container)
+chart2_frame.pack(side=tk.TOP, pady=(20, 10))
+
+chart2_label = ttk.Label(chart2_frame, text="Wykres 2", font=("Helvetica", 10))
+chart2_label.pack()
+
 
 root.mainloop()
