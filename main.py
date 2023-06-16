@@ -1,8 +1,8 @@
 import random
 import math
-import numpy as np
 import matplotlib.pyplot as plt
 from scipy.special import gamma
+import functions as fun
 
 
 def levy_flight(step_length, lambda_value):
@@ -46,7 +46,9 @@ def generate_initial_solution(lower_bound, upper_bound):
 
 def evaluate_solution(solution):
     # Tutaj zaimplementuj obliczanie wartości funkcji kryterialnej dla danego rozwiązania
-    fitness = sum(solution)  # Przykładowe obliczenie wartości funkcji kryterialnej
+    # fitness = sum(solution)  # Przykładowe obliczenie wartości funkcji kryterialnej
+
+    fitness = fun.queueFun(solution)
     return fitness
 
 
@@ -89,8 +91,8 @@ def cuckoo_search_algorithm(population_size, max_iterations, lower_bound, upper_
 
 
 # Wywołanie algorytmu kukułczego
-population_size = 500  # Rozmiar populacji
-max_iterations = 1000  # Maksymalna ilosć iteracji
+population_size = 50  # Rozmiar populacji
+max_iterations = 100  # Maksymalna ilosć iteracji
 probability = 0.25    # prawdopodobieństwo
 lower_bound = -10     # Dolna granica (Lb)
 upper_bound = 10      # Górna granica (Ub)
