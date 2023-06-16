@@ -89,8 +89,8 @@ def cuckoo_search_algorithm(population_size, max_iterations, lower_bound, upper_
 
 
 # Wywołanie algorytmu kukułczego
-population_size = 10  # Rozmiar populacji
-max_iterations = 100  # Maksymalna ilosć iteracji
+population_size = 500  # Rozmiar populacji
+max_iterations = 1000  # Maksymalna ilosć iteracji
 probability = 0.25    # prawdopodobieństwo
 lower_bound = -10     # Dolna granica (Lb)
 upper_bound = 10      # Górna granica (Ub)
