@@ -30,6 +30,8 @@ def run_algorithm():
         upper_bound_input = table_frame.grid_slaves(row=4, column=2)[0].get()
 
         if population_size_input and max_iterations_input and probability_input and lower_bound_input and upper_bound_input:
+            err_label.config(text="")
+            
             # Konwersja wartości na odpowiednie typy
             population_size = int(population_size_input)
             max_iterations = int(max_iterations_input)
