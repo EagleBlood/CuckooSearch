@@ -123,6 +123,7 @@ def reset_results():
     # Czyszczenie etykiety najlepszego wyniku
     best_result_value_label.config(text="-")
     choice_box.selection_clear()
+    choice_box.set("")
     # Czyszczenie wykresów
     plot_clear()
 
