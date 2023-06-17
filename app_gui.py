@@ -108,7 +108,7 @@ upper_frame = tk.Frame(root, pady=10)
 upper_frame.pack()
 
 # Wczytanie obrazu
-image = Image.open("cuckoo_icon.png")
+image = Image.open("imgs/cuckoo_icon.png")
 
 # Skalowanie obrazu do pożądanego rozmiaru
 width, height = 60, 60
