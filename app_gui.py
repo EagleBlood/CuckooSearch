@@ -13,19 +13,32 @@ probability = ""
 lower_bound = ""
 upper_bound = ""
 
+population_size = ""
+max_iterations = ""
+probability = ""
+lower_bound = ""
+upper_bound = ""
+
 def run_algorithm():
     if not calculate_button["state"] == "disabled":
         plot_clear()
         # Pobieranie wartości z pól ustawień
-        population_size = int(table_frame.grid_slaves(row=0, column=2)[0].get())
-        max_iterations = int(table_frame.grid_slaves(row=1, column=2)[0].get())
-        probability = float(table_frame.grid_slaves(row=2, column=2)[0].get())
-        lower_bound = int(table_frame.grid_slaves(row=3, column=2)[0].get())
-        upper_bound = int(table_frame.grid_slaves(row=4, column=2)[0].get())
-        name_function = choice_box.get()
-        print(name_function)
+        population_size_input = table_frame.grid_slaves(row=0, column=2)[0].get()
+        max_iterations_input = table_frame.grid_slaves(row=1, column=2)[0].get()
+        probability_input = table_frame.grid_slaves(row=2, column=2)[0].get()
+        lower_bound_input = table_frame.grid_slaves(row=3, column=2)[0].get()
+        upper_bound_input = table_frame.grid_slaves(row=4, column=2)[0].get()
 
-        if population_size and max_iterations and probability and lower_bound and upper_bound:
+        if population_size_input and max_iterations_input and probability_input and lower_bound_input and upper_bound_input:
+            # Konwersja wartości na odpowiednie typy
+            population_size = int(population_size_input)
+            max_iterations = int(max_iterations_input)
+            probability = float(probability_input)
+            lower_bound = int(lower_bound_input)
+            upper_bound = int(upper_bound_input)
+            name_function = choice_box.get()
+            print(name_function)
+
             # Wywołanie algorytmu kukułczego
             best_solution = ck.cuckoo_search_algorithm(population_size, max_iterations, lower_bound, upper_bound, probability, name_function)
             top_best_solution = best_solution[:5]
@@ -41,6 +54,10 @@ def run_algorithm():
             # Podmiana wartości "Wynik 1" na wartość top_best_solution[0]
             if top_best_solution:
                 best_result_value_label.config(text=top_best_solution[0])
+        else:
+            # Obsługa przypadku, gdy którakolwiek zmienna nie ma wartości
+            print("Uzupełnij wszystkie pola.")
+
 
 def plot(solution):
     x = [0]
