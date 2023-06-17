@@ -55,8 +55,7 @@ def run_algorithm():
             if top_best_solution:
                 best_result_value_label.config(text=top_best_solution[0])
         else:
-            # Obsługa przypadku, gdy którakolwiek zmienna nie ma wartości
-            print("Uzupełnij wszystkie pola.")
+            err_label.config(text="Uzupełnij wszystkie pola")
 
 
 def plot(solution):
@@ -251,6 +250,10 @@ calculate_button.pack(side=tk.LEFT, padx=10)
 
 reset_button = ttk.Button(buttons_frame, text="Domyślne dane", width=19, command=set_default)
 reset_button.pack(side=tk.LEFT, padx=10)
+
+err_label = ttk.Label(inner_settings_frame, text="", font=("Helvetica", 10), justify='center')
+err_label.pack(pady=(0, 10))
+
 
 
 # Kontener z wynikami
