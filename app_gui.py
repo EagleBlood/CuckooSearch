@@ -10,36 +10,36 @@ import cuckoo as ck
 
 def run_algorithm():
     if not calculate_button["state"] == "disabled":
-        reset_results()
 
         # Pobieranie wartości z pól ustawień
-        # population_size = int(table_frame.grid_slaves(row=0, column=2)[0].get())
-        # max_iterations = int(table_frame.grid_slaves(row=1, column=2)[0].get())
-        # probability = float(table_frame.grid_slaves(row=2, column=2)[0].get())
-        # lower_bound = int(table_frame.grid_slaves(row=3, column=2)[0].get())
-        # upper_bound = int(table_frame.grid_slaves(row=4, column=2)[0].get())
-        population_size = 100
-        max_iterations = 50
-        probability = 0.25
-        lower_bound = -10
-        upper_bound = 10
+        population_size = int(table_frame.grid_slaves(row=0, column=2)[0].get())
+        max_iterations = int(table_frame.grid_slaves(row=1, column=2)[0].get())
+        probability = float(table_frame.grid_slaves(row=2, column=2)[0].get())
+        lower_bound = int(table_frame.grid_slaves(row=3, column=2)[0].get())
+        upper_bound = int(table_frame.grid_slaves(row=4, column=2)[0].get())
         name_function = choice_box.get()
-        print(name_function)
-        # Wywołanie algorytmu kukułczego
-        best_solution = ck.cuckoo_search_algorithm(population_size, max_iterations, lower_bound, upper_bound, probability, name_function)
-        top_best_solution = best_solution[:5]
-        plot(best_solution)
 
-        # Ustawienie wartości w etykietach wyników
-        for i in range(rows):
-            if i < len(best_solution):
-                result_labels[i].config(text=f"{i + 1}.  {best_solution[i]}", anchor=tk.W)
-            else:
-                result_labels[i].config(text=f"Wynik {i + 1}:", anchor=tk.W)
+        if population_size and max_iterations and probability and lower_bound and upper_bound:
 
-        # Podmiana wartości "Wynik 1" na wartość top_best_solution[0]
-        if top_best_solution:
-            best_result_value_label.config(text=top_best_solution[0])
+            print(name_function)
+            best_solution = ck.cuckoo_search_algorithm(population_size, max_iterations, lower_bound, upper_bound,probability, name_function)
+            top_best_solution = best_solution[:5]
+            plot(best_solution)
+
+            # Ustawienie wartości w etykietach wyników
+            for i in range(rows):
+                if i < len(best_solution):
+                    result_labels[i].config(text=f"{i + 1}.  {best_solution[i]}", anchor=tk.W)
+                else:
+                    result_labels[i].config(text=f"Wynik {i + 1}:", anchor=tk.W)
+
+            # Podmiana wartości "Wynik 1" na wartość top_best_solution[0]
+            if top_best_solution:
+                best_result_value_label.config(text=top_best_solution[0])
+        else:
+            print("Brak Danych")
+
+
 
 def plot(solution):
     x = [0]
@@ -89,18 +89,40 @@ def reset_results():
 
     # Czyszczenie etykiety najlepszego wyniku
     best_result_value_label.config(text="-")
-
+    table_frame.grid_slaves(row=0, column=2)[0].delete(0, 'end')
+    table_frame.grid_slaves(row=0, column=2)[0].insert(0, "")
+    table_frame.grid_slaves(row=1, column=2)[0].delete(0, 'end')
+    table_frame.grid_slaves(row=1, column=2)[0].insert(0, "")
+    table_frame.grid_slaves(row=2, column=2)[0].delete(0, 'end')
+    table_frame.grid_slaves(row=2, column=2)[0].insert(0, "")
+    table_frame.grid_slaves(row=3, column=2)[0].delete(0, 'end')
+    table_frame.grid_slaves(row=3, column=2)[0].insert(0, "")
+    table_frame.grid_slaves(row=4, column=2)[0].delete(0, 'end')
+    table_frame.grid_slaves(row=4, column=2)[0].insert(0, "")
     # Czyszczenie wykresów
     for widget in chart1_frame.winfo_children():
         widget.destroy()
     for widget in chart2_frame.winfo_children():
         widget.destroy()
 
+def set_default():
+    reset_results()
+    table_frame.grid_slaves(row=0, column=2)[0].delete(0, 'end')
+    table_frame.grid_slaves(row=0, column=2)[0].insert(0, "100")
+    table_frame.grid_slaves(row=1, column=2)[0].delete(0, 'end')
+    table_frame.grid_slaves(row=1, column=2)[0].insert(0, "50")
+    table_frame.grid_slaves(row=2, column=2)[0].delete(0, 'end')
+    table_frame.grid_slaves(row=2, column=2)[0].insert(0, "0.25")
+    table_frame.grid_slaves(row=3, column=2)[0].delete(0, 'end')
+    table_frame.grid_slaves(row=3, column=2)[0].insert(0, "-10")
+    table_frame.grid_slaves(row=4, column=2)[0].delete(0, 'end')
+    table_frame.grid_slaves(row=4, column=2)[0].insert(0, "10")
+
 
 root = tk.Tk()
 
 # Ustawienia głównego okna
-root.geometry("1300x750")
+root.geometry("1300x900")
 root.title("Algorytm kukułczy")
 
 # Górna sekcja
@@ -108,7 +130,7 @@ upper_frame = tk.Frame(root, pady=10)
 upper_frame.pack()
 
 # Wczytanie obrazu
-image = Image.open("cuckoo_icon.png")
+image = Image.open("imgs/cuckoo_icon.png")
 
 # Skalowanie obrazu do pożądanego rozmiaru
 width, height = 60, 60
@@ -200,7 +222,7 @@ reset_button.pack(side=tk.LEFT, padx=10)
 calculate_button = ttk.Button(buttons_frame, text="Oblicz", width=19, command=run_algorithm)
 calculate_button.pack(side=tk.LEFT, padx=10)
 
-reset_button = ttk.Button(buttons_frame, text="Domyślne dane", width=19, command=reset_results)
+reset_button = ttk.Button(buttons_frame, text="Domyślne dane", width=19, command=set_default)
 reset_button.pack(side=tk.LEFT, padx=10)
 
 # Kontener z wynikami
