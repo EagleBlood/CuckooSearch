@@ -1,8 +1,4 @@
-import math
-import matplotlib.pyplot as plt
-import cuckoo as ck
-import levy_flight as lf
+import app_gui as app
 
-
-
-
+if __name__ == "__main__":
+    root = app.Tk()
