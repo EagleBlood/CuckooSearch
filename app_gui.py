@@ -10,36 +10,36 @@ import cuckoo as ck
 
 def run_algorithm():
     if not calculate_button["state"] == "disabled":
-        reset_results()
 
         # Pobieranie wartości z pól ustawień
-        # population_size = int(table_frame.grid_slaves(row=0, column=2)[0].get())
-        # max_iterations = int(table_frame.grid_slaves(row=1, column=2)[0].get())
-        # probability = float(table_frame.grid_slaves(row=2, column=2)[0].get())
-        # lower_bound = int(table_frame.grid_slaves(row=3, column=2)[0].get())
-        # upper_bound = int(table_frame.grid_slaves(row=4, column=2)[0].get())
-        population_size = 100
-        max_iterations = 50
-        probability = 0.25
-        lower_bound = -10
-        upper_bound = 10
+        population_size = int(table_frame.grid_slaves(row=0, column=2)[0].get())
+        max_iterations = int(table_frame.grid_slaves(row=1, column=2)[0].get())
+        probability = float(table_frame.grid_slaves(row=2, column=2)[0].get())
+        lower_bound = int(table_frame.grid_slaves(row=3, column=2)[0].get())
+        upper_bound = int(table_frame.grid_slaves(row=4, column=2)[0].get())
         name_function = choice_box.get()
-        print(name_function)
-        # Wywołanie algorytmu kukułczego
-        best_solution = ck.cuckoo_search_algorithm(population_size, max_iterations, lower_bound, upper_bound, probability, name_function)
-        top_best_solution = best_solution[:5]
-        plot(best_solution)
 
-        # Ustawienie wartości w etykietach wyników
-        for i in range(rows):
-            if i < len(best_solution):
-                result_labels[i].config(text=f"{i + 1}.  {best_solution[i]}", anchor=tk.W)
-            else:
-                result_labels[i].config(text=f"Wynik {i + 1}:", anchor=tk.W)
+        if population_size and max_iterations and probability and lower_bound and upper_bound:
 
-        # Podmiana wartości "Wynik 1" na wartość top_best_solution[0]
-        if top_best_solution:
-            best_result_value_label.config(text=top_best_solution[0])
+            print(name_function)
+            best_solution = ck.cuckoo_search_algorithm(population_size, max_iterations, lower_bound, upper_bound,probability, name_function)
+            top_best_solution = best_solution[:5]
+            plot(best_solution)
+
+            # Ustawienie wartości w etykietach wyników
+            for i in range(rows):
+                if i < len(best_solution):
+                    result_labels[i].config(text=f"{i + 1}.  {best_solution[i]}", anchor=tk.W)
+                else:
+                    result_labels[i].config(text=f"Wynik {i + 1}:", anchor=tk.W)
+
+            # Podmiana wartości "Wynik 1" na wartość top_best_solution[0]
+            if top_best_solution:
+                best_result_value_label.config(text=top_best_solution[0])
+        else:
+            print("Brak Danych")
+
+
 
 def plot(solution):
     x = [0]
@@ -83,37 +83,46 @@ def plot(solution):
 
 
 def reset_results():
-    text_entry_1.delete(0, tk.END)
-    text_entry_2.delete(0, tk.END)
-    text_entry_3.delete(0, tk.END)
-    text_entry_4.delete(0, tk.END)
-    text_entry_5.delete(0, tk.END)
+    # Czyszczenie etykiet wyników
+    for label in result_labels:
+        label.config(text="-")
 
+    # Czyszczenie etykiety najlepszego wyniku
+    best_result_value_label.config(text="-")
+    table_frame.grid_slaves(row=0, column=2)[0].delete(0, 'end')
+    table_frame.grid_slaves(row=0, column=2)[0].insert(0, "")
+    table_frame.grid_slaves(row=1, column=2)[0].delete(0, 'end')
+    table_frame.grid_slaves(row=1, column=2)[0].insert(0, "")
+    table_frame.grid_slaves(row=2, column=2)[0].delete(0, 'end')
+    table_frame.grid_slaves(row=2, column=2)[0].insert(0, "")
+    table_frame.grid_slaves(row=3, column=2)[0].delete(0, 'end')
+    table_frame.grid_slaves(row=3, column=2)[0].insert(0, "")
+    table_frame.grid_slaves(row=4, column=2)[0].delete(0, 'end')
+    table_frame.grid_slaves(row=4, column=2)[0].insert(0, "")
+    # Czyszczenie wykresów
+    for widget in chart1_frame.winfo_children():
+        widget.destroy()
+    for widget in chart2_frame.winfo_children():
+        widget.destroy()
 
-def default_results():
-    population_size = default_population_size
-    max_iterations = default_max_iterations
-    probability = default_probability
-    lower_bound = default_lower_bound
-    upper_bound = default_upper_bound
-
-    # Update the text entries with default values
-    text_entry_1.delete(0, tk.END)
-    text_entry_1.insert(0, str(population_size))
-    text_entry_2.delete(0, tk.END)
-    text_entry_2.insert(0, str(max_iterations))
-    text_entry_3.delete(0, tk.END)
-    text_entry_3.insert(0, str(probability))
-    text_entry_4.delete(0, tk.END)
-    text_entry_4.insert(0, str(lower_bound))
-    text_entry_5.delete(0, tk.END)
-    text_entry_5.insert(0, str(upper_bound))
+def set_default():
+    reset_results()
+    table_frame.grid_slaves(row=0, column=2)[0].delete(0, 'end')
+    table_frame.grid_slaves(row=0, column=2)[0].insert(0, "100")
+    table_frame.grid_slaves(row=1, column=2)[0].delete(0, 'end')
+    table_frame.grid_slaves(row=1, column=2)[0].insert(0, "50")
+    table_frame.grid_slaves(row=2, column=2)[0].delete(0, 'end')
+    table_frame.grid_slaves(row=2, column=2)[0].insert(0, "0.25")
+    table_frame.grid_slaves(row=3, column=2)[0].delete(0, 'end')
+    table_frame.grid_slaves(row=3, column=2)[0].insert(0, "-10")
+    table_frame.grid_slaves(row=4, column=2)[0].delete(0, 'end')
+    table_frame.grid_slaves(row=4, column=2)[0].insert(0, "10")
 
 
 root = tk.Tk()
 
 # Ustawienia głównego okna
-root.geometry("1300x750")
+root.geometry("1300x900")
 root.title("Algorytm kukułczy")
 
 # Górna sekcja
@@ -163,20 +172,6 @@ table_frame.pack()
 rows = 5
 columns = 3
 
-# Default values
-default_population_size = 100
-default_max_iterations = 50
-default_probability = 0.25
-default_lower_bound = -10
-default_upper_bound = 10
-
-# Set initial values
-population_size = default_population_size
-max_iterations = default_max_iterations
-probability = default_probability
-lower_bound = default_lower_bound
-upper_bound = default_upper_bound
-
 for i in range(rows):
     for j in range(columns):
         if j == 2:
@@ -208,23 +203,6 @@ for i in range(rows):
             else:
                 label.grid(row=i, column=j, padx=10, pady=5)
 
-# Create text entry fields
-text_entry_1 = ttk.Entry(table_frame)
-text_entry_1.grid(row=0, column=2, padx=10, pady=5)
-
-text_entry_2 = ttk.Entry(table_frame)
-text_entry_2.grid(row=1, column=2, padx=10, pady=5)
-
-text_entry_3 = ttk.Entry(table_frame)
-text_entry_3.grid(row=2, column=2, padx=10, pady=5)
-
-text_entry_4 = ttk.Entry(table_frame)
-text_entry_4.grid(row=3, column=2, padx=10, pady=5)
-
-text_entry_5 = ttk.Entry(table_frame)
-text_entry_5.grid(row=4, column=2, padx=10, pady=5)
-
-
 # Napis i rozwijany choice box
 text_label = ttk.Label(inner_settings_frame, text="Wybierz funkcje celu:", anchor='center')
 text_label.pack(pady=10)
@@ -244,8 +222,8 @@ reset_button.pack(side=tk.LEFT, padx=10)
 calculate_button = ttk.Button(buttons_frame, text="Oblicz", width=19, command=run_algorithm)
 calculate_button.pack(side=tk.LEFT, padx=10)
 
-default_button = ttk.Button(buttons_frame, text="Domyślne dane", width=19, command=default_results)
-default_button.pack(side=tk.LEFT, padx=10)
+reset_button = ttk.Button(buttons_frame, text="Domyślne dane", width=19, command=set_default)
+reset_button.pack(side=tk.LEFT, padx=10)
 
 # Kontener z wynikami
 results_frame = ttk.Frame(main_frame, width=400, height=400, borderwidth=1, relief=tk.SOLID)
