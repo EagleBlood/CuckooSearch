@@ -83,18 +83,31 @@ def plot(solution):
 
 
 def reset_results():
-    # Czyszczenie etykiet wyników
-    for label in result_labels:
-        label.config(text="-")
+    text_entry_1.delete(0, tk.END)
+    text_entry_2.delete(0, tk.END)
+    text_entry_3.delete(0, tk.END)
+    text_entry_4.delete(0, tk.END)
+    text_entry_5.delete(0, tk.END)
 
-    # Czyszczenie etykiety najlepszego wyniku
-    best_result_value_label.config(text="-")
 
-    # Czyszczenie wykresów
-    for widget in chart1_frame.winfo_children():
-        widget.destroy()
-    for widget in chart2_frame.winfo_children():
-        widget.destroy()
+def default_results():
+    population_size = default_population_size
+    max_iterations = default_max_iterations
+    probability = default_probability
+    lower_bound = default_lower_bound
+    upper_bound = default_upper_bound
+
+    # Update the text entries with default values
+    text_entry_1.delete(0, tk.END)
+    text_entry_1.insert(0, str(population_size))
+    text_entry_2.delete(0, tk.END)
+    text_entry_2.insert(0, str(max_iterations))
+    text_entry_3.delete(0, tk.END)
+    text_entry_3.insert(0, str(probability))
+    text_entry_4.delete(0, tk.END)
+    text_entry_4.insert(0, str(lower_bound))
+    text_entry_5.delete(0, tk.END)
+    text_entry_5.insert(0, str(upper_bound))
 
 
 root = tk.Tk()
@@ -150,6 +163,20 @@ table_frame.pack()
 rows = 5
 columns = 3
 
+# Default values
+default_population_size = 100
+default_max_iterations = 50
+default_probability = 0.25
+default_lower_bound = -10
+default_upper_bound = 10
+
+# Set initial values
+population_size = default_population_size
+max_iterations = default_max_iterations
+probability = default_probability
+lower_bound = default_lower_bound
+upper_bound = default_upper_bound
+
 for i in range(rows):
     for j in range(columns):
         if j == 2:
@@ -181,6 +208,23 @@ for i in range(rows):
             else:
                 label.grid(row=i, column=j, padx=10, pady=5)
 
+# Create text entry fields
+text_entry_1 = ttk.Entry(table_frame)
+text_entry_1.grid(row=0, column=2, padx=10, pady=5)
+
+text_entry_2 = ttk.Entry(table_frame)
+text_entry_2.grid(row=1, column=2, padx=10, pady=5)
+
+text_entry_3 = ttk.Entry(table_frame)
+text_entry_3.grid(row=2, column=2, padx=10, pady=5)
+
+text_entry_4 = ttk.Entry(table_frame)
+text_entry_4.grid(row=3, column=2, padx=10, pady=5)
+
+text_entry_5 = ttk.Entry(table_frame)
+text_entry_5.grid(row=4, column=2, padx=10, pady=5)
+
+
 # Napis i rozwijany choice box
 text_label = ttk.Label(inner_settings_frame, text="Wybierz funkcje celu:", anchor='center')
 text_label.pack(pady=10)
@@ -200,8 +244,8 @@ reset_button.pack(side=tk.LEFT, padx=10)
 calculate_button = ttk.Button(buttons_frame, text="Oblicz", width=19, command=run_algorithm)
 calculate_button.pack(side=tk.LEFT, padx=10)
 
-reset_button = ttk.Button(buttons_frame, text="Domyślne dane", width=19, command=reset_results)
-reset_button.pack(side=tk.LEFT, padx=10)
+default_button = ttk.Button(buttons_frame, text="Domyślne dane", width=19, command=default_results)
+default_button.pack(side=tk.LEFT, padx=10)
 
 # Kontener z wynikami
 results_frame = ttk.Frame(main_frame, width=400, height=400, borderwidth=1, relief=tk.SOLID)
