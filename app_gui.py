@@ -151,11 +151,13 @@ def plot_clear():
 root = tk.Tk()
 
 # Ustawienia głównego okna
-root.geometry("1300x750")
 root.title("Algorytm kukułczy")
 
+main_frame = tk.Frame(root, padx=20, pady=20)
+main_frame.pack()
+
 # Górna sekcja
-upper_frame = tk.Frame(root, pady=10)
+upper_frame = tk.Frame(main_frame, pady=10)
 upper_frame.pack()
 
 # Wczytanie obrazu
@@ -177,7 +179,7 @@ title_label = tk.Label(upper_frame, text="Algorytm kukułczy", font=("Helvetica"
 title_label.pack(side=tk.LEFT)
 
 # Kontener przechowujący Ustawienia, Wyniki i Wykresy
-main_frame = tk.Frame(root)
+main_frame = tk.Frame(main_frame)
 main_frame.pack(pady=10)
 
 # Kontener z ustawieniami
@@ -312,22 +314,22 @@ charts_separator = ttk.Separator(inner_charts_frame, orient=tk.HORIZONTAL)
 charts_separator.pack(fill=tk.X, padx=10, pady=10)
 
 # Kontener dla pierwszego wykresu
-chart1_container = ttk.Frame(inner_charts_frame, borderwidth=1, relief=tk.SOLID)
+chart1_container = ttk.Frame(inner_charts_frame, relief=tk.SOLID)
 chart1_container.pack(side=tk.TOP, pady=(20, 10))
 
 # Kontener dla drugiego wykresu
-chart2_container = ttk.Frame(inner_charts_frame, borderwidth=1, relief=tk.SOLID)
+chart2_container = ttk.Frame(inner_charts_frame, relief=tk.SOLID)
 chart2_container.pack(side=tk.TOP, pady=(0, 20))
 
 # Kontener na pierwszy wykres
-chart1_frame = ttk.Frame(chart1_container)
+chart1_frame = ttk.Frame(chart1_container, width=350, height=350)
 chart1_frame.pack()
 
 chart1_label = ttk.Label(chart1_frame)
 chart1_label.pack()
 
 # Kontener na drugi wykres
-chart2_frame = ttk.Frame(chart2_container)
+chart2_frame = ttk.Frame(chart2_container, width=350, height=350)
 chart2_frame.pack()
 
 chart2_label = ttk.Label(chart2_frame)
