@@ -25,13 +25,4 @@ def levy_flight_plot(step_length, lambda_value, num_steps):
         x.append(x[-1] + dx)
         y.append(y[-1] + dy)
 
-    # Wykres z połączonymi kreskami
-    plt.plot(x, y, linestyle='-', marker='', color='blue')
-
-    # Ustawienia osi
-    plt.xlabel('X')
-    plt.ylabel('Y')
-    plt.title("Wykres lotów Levy'ego")
-
-    # Wyświetlenie wykresu
-    plt.show()
+    return x, y

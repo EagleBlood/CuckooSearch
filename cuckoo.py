@@ -3,6 +3,8 @@ from scipy.special import gamma
 import functions as fun
 import levy_flight as lf
 
+function = ""
+
 def generate_initial_solution(lower_bound, upper_bound):
     # Tutaj zaimplementuj losową generację początkowego rozwiązania
     return [random.uniform(lower_bound, upper_bound) for _ in range(10)]
@@ -10,15 +12,25 @@ def generate_initial_solution(lower_bound, upper_bound):
 
 def evaluate_solution(solution):
     # Tutaj zaimplementuj obliczanie wartości funkcji kryterialnej dla danego rozwiązania
-    # fitness = sum(solution)  # Przykładowe obliczenie wartości funkcji kryterialnej
+    if function == "queue":
+        fitness = fun.queueFun(solution)
+    elif function == "rosenbrock":
+        fitness = fun.rosenbrock_function(solution)
+    elif function == "rastrigin":
+        fitness = fun.rastrigin_function(solution)
+    elif function == "schwefel":
+        fitness = fun.schwefel_function(solution)
+    else:
+        fitness = sum(solution) # Przykładowe obliczenie wartości funkcji kryterialnej
 
-    fitness = fun.queueFun(solution)
     return fitness
 
 
-def cuckoo_search_algorithm(population_size, max_iterations, lower_bound, upper_bound, probability):
+def cuckoo_search_algorithm(population_size, max_iterations, lower_bound, upper_bound, probability, function_):
+    global function  # Deklaracja globalnej zmiennej function
     nests = [generate_initial_solution(lower_bound, upper_bound) for _ in range(population_size)]
     best_solution = nests[0]
+    function = function_
 
     for iteration in range(max_iterations):
         for i in range(population_size):
@@ -52,3 +64,4 @@ def cuckoo_search_algorithm(population_size, max_iterations, lower_bound, upper_
             best_solution = nests[0]
 
     return best_solution
+
